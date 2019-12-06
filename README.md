@@ -1,6 +1,7 @@
 # myMVC_module_InfoTool
-This is a module for myMVC (https://github.com/gueff/myMVC). Get it run in a few Steps:
+This is a Debug-Toolbar module for [myMVC > 1.1.1 (dev-master)](https://github.com/gueff/myMVC/tree/9d2fab5b4e7f9fcd57a788ab86a145c169e4c9ad)
 
+If you need this for myMVC <= 1.1.1, take this Version of myMVC_module_InfoTool: https://github.com/gueff/myMVC_module_InfoTool/releases/tag/1.0.0
 
 ## 1. Download this Repository
 and place it inside myMVC's `modules` folder:
@@ -10,10 +11,8 @@ and place it inside myMVC's `modules` folder:
     modules
         [..]
         InfoTool
-            Controller
-            Event
             Model
-            _INSTALL
+            templates
             README.md
         [..]
     public
@@ -24,16 +23,15 @@ and place it inside myMVC's `modules` folder:
 
 ## 2. Activate via Event Listener
 ~~~
-/*
- * switch on InfoTool in develop environment
- * immediatly after the target class/method was called
- */
-if ('develop' === \MVC\Registry::get('MVC_ENV'))
-{
-	\MVC\Event::BIND ('mvc.reflect.targetObject.after', function ($oObject)
-	{
-		// switch on InfoTool
-		new \InfoTool\Model\Index ($oObject->oBlogixxViewIndex);
-	});
-}
+/** @var \MVC\DataType\DTArrayObject $oDTArrayObject */
+'mvc.reflex.reflect.targetObject.after' => function (\MVC\DataType\DTArrayObject $oDTArrayObject) {
+
+    $oView = $oDTArrayObject
+        ->getDTKeyValueByKey('oReflectionObject')
+        ->get_sValue()
+        ->oWebbixxViewIndex;
+
+    // switch on InfoTool
+    new \InfoTool\Model\Index ($oView);
+},
 ~~~

@@ -28,19 +28,20 @@ class Index
 	private $aToolbar = array ();
 
 	/**
+     * Index constructor.
 	 * adds Event Listerner to 'mvc.view.render.before'<br>
 	 * starts collecting Infos and save it to Registry
-	 * 
-	 * @access public
-	 * @param \Smarty $oView
-	 * @return void
-	 */
+     *
+     * @param \Smarty $oView
+     * @throws \ReflectionException
+     */
 	public function __construct (\Smarty $oView)
 	{			
 		// add toolbar at the right time
-		\MVC\Event::BIND ('mvc.view.render.before', function ($oView)
-		{
-			\InfoTool\Model\Index::injectToolbar ($oView);
+		\MVC\Event::BIND ('mvc.view.render.begin', function (\MVC\DataType\DTArrayObject $oDTArrayObject) {
+
+            \MVC\Log::WRITE(basename(__FILE__) . ', ' . __LINE__, 'debug.log');
+			\InfoTool\Model\Index::injectToolbar ($oDTArrayObject->getDTKeyValueByKey('oView')->get_sValue());
 		});
 
 		// get toolbar values and save them to registry
@@ -50,11 +51,10 @@ class Index
 	/**
 	 * adds the toolbar to the html dom before closing body tag
 	 * 
-	 * @access public
-	 * @static
-	 * @param \Smarty $oView
-	 * @return void
-	 */
+     * @param \Smarty $oView
+     * @throws \ReflectionException
+     * @throws \SmartyException
+     */
 	public static function injectToolbar (\Smarty $oView)
 	{
 		$sToolBarVarName = 'sToolBar_' . uniqid ();
@@ -112,10 +112,10 @@ class Index
 	/**
 	 * collects all Info for being displayed by the Toolbar
 	 * 
-	 * @access private
-	 * @param \Smarty $oView
-	 * @return array $aToolbar containing all Info for toolbar
-	 */
+     * @param \Smarty $oView
+     * @return array
+     * @throws \ReflectionException
+     */
 	private function collectInfo (\Smarty $oView)
 	{
 		$aToolbar = array ();
@@ -195,9 +195,9 @@ class Index
 	/**
 	 * get cachefiles
 	 * 
-	 * @access private
-	 * @return array $aCache
-	 */
+     * @return array
+     * @throws \ReflectionException
+     */
 	private function getCaches ()
 	{
 		$aCache = array ();
