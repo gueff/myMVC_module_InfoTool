@@ -70,11 +70,11 @@ for more Info
 			<ul class="nav navbar-nav">
 				
 				<div style="position: absolute;top: -20px;"><small>
-					Env: {$aToolbar.sEnv} | PHP {$aToolbar.sPHP}, Operating System {$aToolbar.sOS}, Construction Time: {$aToolbar.sConstructionTime} s
+					MVC_Env: {$aToolbar.sEnv} | PHP {$aToolbar.sPHP}, Operating System {$aToolbar.sOS}, Construction Time: {$aToolbar.sConstructionTime} s
 				</small></div>
 
 				<li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cubes"></i> Variables <span class="caret"></span></a>
+					<a href="#" class="dropd	own-toggle" data-toggle="dropdown"><i class="fa fa-cubes"></i> Variables <span class="caret"></span></a>
 					<ul class="dropdown-menu myMvcToolbarDropUp" 
 						role="menu" 
 						data-placement="auto" 
@@ -87,9 +87,13 @@ for more Info
 							<li class=""><a href="#Variables4" role="tab" data-toggle="tab">$_REQUEST</a></li>
 							<li class=""><a href="#Variables5" role="tab" data-toggle="tab">$_SESSION</a></li>
 							<li class=""><a href="#Variables8" role="tab" data-toggle="tab">$_SERVER</a></li>
+							<li class=""><a href="#Variables0" role="tab" data-toggle="tab">$_ENV</a></li>
 							<li class=""><a href="#Variables7" role="tab" data-toggle="tab">Constants</a></li>
 						</ul>
 						<div class="tab-content" style="overflow: auto;width: 100%;height: 500px;">
+							<div class="tab-pane" id="Variables0" style="overflow: auto;width: 100%;height: 500px;">
+								<pre>{$aToolbar.aEnv|@print_r:true|escape:'htmlall'}</pre>
+							</div>
 							<div class="tab-pane active in" id="Variables1">
 								<p>
 									<br />unfiltered Values in $_GET:
