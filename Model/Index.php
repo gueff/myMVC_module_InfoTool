@@ -124,7 +124,8 @@ class Index
 		$aToolbar['sOS'] = PHP_OS;
 		$aToolbar['sEnv'] = \MVC\Registry::get('MVC_ENV');
 
-		$aToolbar['aGet'] = array_map('htmlentities', $_GET);		
+        $aToolbar['aEnv'] = array_map('htmlentities', $_ENV);
+        $aToolbar['aGet'] = array_map('htmlentities', $_GET);
 		$aToolbar['aPost'] = array_map('htmlentities', $_POST);
 		$aToolbar['aCookie'] = array_map('htmlentities', $_COOKIE);
 		$aToolbar['aRequest'] = array_map('htmlentities', $_REQUEST);
