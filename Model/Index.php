@@ -27,7 +27,7 @@ class Index
 	 * @var array
 	 * @access private
 	 */
-	private $aToolbar = array ();
+    protected $aToolbar = array ();
 
 	/**
      * Index constructor.
@@ -116,7 +116,7 @@ class Index
      * @return array
      * @throws \ReflectionException
      */
-	private function collectInfo (\Smarty $oView)
+    protected function collectInfo (\Smarty $oView)
 	{
 		$aToolbar = array ();
 
@@ -130,7 +130,7 @@ class Index
 		$aToolbar['aCookie'] = array_map('htmlentities', $_COOKIE);
 		$aToolbar['aRequest'] = array_map('htmlentities', $_REQUEST);
 		$aToolbar['aSession'] = $_SESSION;
-		$aToolbar['aSmartyTemplateVars'] = $oView->getTemplateVars ();
+		$aToolbar['aSmartyTemplateVars'] = $this->buildMarkupListTree($oView->getTemplateVars());
 		$aConstants = get_defined_constants (true);
 		$aToolbar['aConstant'] = $aConstants['user'];
 		$aToolbar['aServer'] = $_SERVER;
@@ -176,22 +176,53 @@ class Index
 			, 'dMemoryUsage' => (memory_get_usage () / 1024)
 			, 'dMemoryPeakUsage' => (memory_get_peak_usage () / 1024)
 		);
-		$aToolbar['aRegistry'] = \MVC\Registry::getStorageArray ();
+        $aToolbar['aRegistry'] = $this->buildMarkupListTree(\MVC\Registry::getStorageArray ());
 		$aToolbar['aCache'] = $this->getCaches ();
-		$aToolbar['aError'] = \MVC\Error::getERROR ();
-		$aToolbar['oIds'] = ( (\MVC\Registry::isRegistered ('MVC_IDS_IMPACT')) ? \MVC\Registry::get ('MVC_IDS_IMPACT') : '' );
-		$aToolbar['aIdsConfig'] = ( (\MVC\Registry::isRegistered ('MVC_IDS_INIT')) ? \MVC\Registry::get ('MVC_IDS_INIT') : '' );
-		$aToolbar['aIdsDisposed'] = ( (\MVC\Registry::isRegistered ('MVC_IDS_DISPOSED')) ? \MVC\Registry::get ('MVC_IDS_DISPOSED') : '' );
-		
+		$aToolbar['aError'] = \MVC\Error::getERROR();
+
 		$iMicrotime = microtime (true);
 		$sMicrotime = sprintf ("%06d", ($iMicrotime - floor ($iMicrotime)) * 1000000);
 		$oDateTime = new \DateTime (date ('Y-m-d H:i:s.' . $sMicrotime, $iMicrotime));
-		$oStart = \MVC\Session::getInstance ()->get ('startDateTime');
+		$oStart = \MVC\Session::is()->get ('startDateTime');
 		$dDiff = (date_format ($oDateTime, "s.u") - date_format ($oStart, "s.u"));
 		$aToolbar['sConstructionTime'] = round ($dDiff, 3);
 		
 		return $aToolbar;
 	}
+
+    protected function buildMarkupListTree($aData)
+    {
+        $sMarkup = '<ul class="myMvcToolbar-tree">';
+
+        foreach ($aData as $sKey => $mValue)
+        {
+            $sMarkup.= '<li class="myMvcToolbar-tree"><span class="myMvcToolbar-bg-primary">' . trim($sKey) . '</span> <span class="myMvcToolbar-bg-info">=></span> ';
+
+            if (is_array($mValue))
+            {
+                $sMarkup.= ' <span class="myMvcToolbar-bg-info">array(...</span> ';
+                $sMarkup.= $this->buildMarkupListTree($mValue);
+            }
+            elseif (is_object($mValue))
+            {
+                ob_start();
+                var_dump($mValue);
+                $mValue = ob_get_contents();
+                ob_end_clean();
+                $sMarkup.= htmlentities(trim(preg_replace('!\s+!', ' ', $mValue)));
+            }
+            else
+            {
+                $sMarkup.= htmlentities(trim(preg_replace('!\s+!', ' ', $mValue)));
+            }
+
+            $sMarkup.= '</li>';
+        }
+
+        $sMarkup.= '</ul>';
+
+        return $sMarkup;
+    }
 
 	/**
 	 * get cachefiles
@@ -199,7 +230,7 @@ class Index
      * @return array
      * @throws \ReflectionException
      */
-	private function getCaches ()
+    protected function getCaches ()
 	{
 		$aCache = array ();
 		$oObjects = new \RecursiveIteratorIterator (
