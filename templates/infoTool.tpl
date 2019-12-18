@@ -378,8 +378,14 @@ navi label {
 
 			<!-- content -->
 			<figure>
-				<div class="subtab41"><pre class="prettyprint">{foreach key=key item=item from=$aToolbar.aFilesIncluded}{$key} - {$item}
-{/foreach}</pre></div>
+				<div class="subtab41">
+					<b>MVC_BASE_PATH</b>: {$aRegistry.MVC_BASE_PATH|escape:'htmlall'}
+					<hr>
+					<ol class="prettyprint">
+						{foreach key=key item=item from=$aToolbar.aFilesIncluded}
+							<li>{$item|replace:$aRegistry.MVC_BASE_PATH:''|escape:'htmlall'}</li>
+						{/foreach}
+				</div>
 			</figure>
 		</div>
 		<div class="tab5">
