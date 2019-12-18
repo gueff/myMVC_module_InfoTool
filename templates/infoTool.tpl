@@ -1,13 +1,14 @@
 {* see /InfoTool/README.md for more Info *}
 
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/styles/default.min.css">
+
 {* value for css automatic generation parts *}
 {$iStyleIteration=81}
-
 <style>
 {literal}
 /*#myMvcToolbar h3 {color: #000;}*/
 #myMvcToolbar {/* div */
-	position: fixed;
+	position: fixed !important;
 	bottom: 0px;
 	left: 0px;
 	font-family: monospace, monospace;
@@ -24,8 +25,23 @@
 	font-size: 12px;
 	z-index: -1;
 }
+.myMvcToolbar-tree {
+	overflow-wrap: break-word !important;
+	word-wrap: break-word !important;
+	hyphens: auto !important;
+}
+.myMvcToolbar-bg-info {
+	background-color: darkgray !important;
+}
+.myMvcToolbar-bg-primary {
+	background-color: hsl(210,50%,50%) !important;
+	border-radius: 3px;
+	color: white !important;
+	padding: 2px;
+}
 .myMvcToolbar-bg-danger {
 	background-color: darkred !important;
+	color: white !important;
 }
 .myMvcToolbarBlink {
 	animation: myMvcToolbarBlink 1s steps(5, start) infinite;
@@ -352,7 +368,7 @@ navi label {
 			</navi>
 
 			<!-- content -->
-			<figure>
+			<figure style="width: 1000px;">
 				<div class="subtab31">
 					<ul>
 						<li><b>Template</b>: {$aToolbar.sTemplate|replace:$aRegistry.MVC_VIEW_TEMPLATES:''|escape:'htmlall'}</li>
@@ -360,10 +376,11 @@ navi label {
 					</ul>
 					<hr>
 					<!-- @see https://www.w3schools.com/howto/tryit.asp?filename=tryhow_syntax_highlight -->
-					<pre class="prettyprint">{$aToolbar.sTemplateContent|escape:'htmlall'}</pre>
+					<pre class="prettyprint"><code class="html">{$aToolbar.sTemplateContent|escape:'htmlall'}</code></pre>
 				</div>
-				<div class="subtab32"><pre>{$aToolbar.aSmartyTemplateVars|@print_r:true|escape:'htmlall'}</pre></div>
-				<div class="subtab33"><pre class="prettyprint">{$aToolbar.sRendered|escape:'htmlall'}</pre></div>
+{*				<div class="subtab32"><pre>{$aToolbar.aSmartyTemplateVars|@print_r:true|escape:'htmlall'}</pre></div>*}
+				<div class="subtab32">{$aToolbar.aSmartyTemplateVars}</div>
+				<div class="subtab33"><pre class="prettyprint"><code class="html">{$aToolbar.sRendered|escape:'htmlall'}</code></pre></div>
 			</figure>
 		</div>
 		<div class="tab4">
@@ -418,8 +435,8 @@ navi label {
 			</navi>
 
 			<!-- content -->
-			<figure>
-				<div class="subtab61"><pre>{$aToolbar.aRegistry|@print_r:true|escape:'htmlall'}</pre></div>
+			<figure style="width: 1000px;">
+				<div class="subtab61">{$aToolbar.aRegistry}</div>
 			</figure>
 		</div>
 		<div class="tab7">
@@ -486,6 +503,8 @@ navi label {
 
 </div>
 
+
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/highlight.min.js"></script>
 <script defer>
 	{literal}
 	/**
@@ -511,6 +530,8 @@ navi label {
 	});
 
 	ready(function () {
+
+		hljs.initHighlightingOnLoad();
 		console.log('%cmyMVC %cInfoTool', 'color: blue;', 'color: red;');
 		console.dir({/literal}{$aToolbar|json_encode}{literal});
 	});
