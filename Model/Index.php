@@ -13,6 +13,8 @@
  */
 namespace InfoTool\Model;
 
+use MVC\Helper;
+
 /**
  * Index
  */
@@ -39,8 +41,6 @@ class Index
 	{			
 		// add toolbar at the right time
 		\MVC\Event::BIND ('mvc.view.render.begin', function (\MVC\DataType\DTArrayObject $oDTArrayObject) {
-
-            \MVC\Log::WRITE(basename(__FILE__) . ', ' . __LINE__, 'debug.log');
 			\InfoTool\Model\Index::injectToolbar ($oDTArrayObject->getDTKeyValueByKey('oView')->get_sValue());
 		});
 
@@ -69,8 +69,8 @@ class Index
 		\MVC\View::$_bEchoOut = FALSE;
 
 		// inject toolbar var to regular string output via DOM
-		INJECT:
-		{
+		INJECT: {
+
 			$oDom = new \DOMDocument(null, null);
 
 			// prevent error messages occuring by using DOM
