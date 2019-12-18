@@ -29,7 +29,7 @@ and place it inside myMVC's `modules` folder:
     $oView = $oDTArrayObject
         ->getDTKeyValueByKey('oReflectionObject')
         ->get_sValue()
-        ->oWebbixxViewIndex;
+        ->oView;
 
     // switch on InfoTool
     new \InfoTool\Model\Index ($oView);
