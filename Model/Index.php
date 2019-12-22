@@ -13,6 +13,7 @@
  */
 namespace InfoTool\Model;
 
+use MVC\Event;
 use MVC\Helper;
 
 /**
@@ -122,41 +123,63 @@ class Index
 
 		$aToolbar['sPHP'] = phpversion ();
 		$aToolbar['sOS'] = PHP_OS;
-		$aToolbar['sEnv'] = \MVC\Registry::get('MVC_ENV');
+        $aToolbar['sOS'] = PHP_OS;
+        $aToolbar['sUniqueId'] = \MVC\Registry::get('MVC_UNIQUE_ID');
+        $aToolbar['sMyMvcVersion'] = (\MVC\Registry::isRegistered('MVC_CORE') && isset(\MVC\Registry::get('MVC_CORE')['version']))
+            ? \MVC\Registry::get('MVC_CORE')['version']
+            : '?';
+        $aToolbar['sMyMVCCore'] = (\MVC\Registry::isRegistered('MVC_CORE')) ? $this->buildMarkupListTree(\MVC\Registry::get('MVC_CORE')) : '?';
 
-        $aToolbar['aEnv'] = array_map('htmlentities', $_ENV);
-        $aToolbar['aGet'] = array_map('htmlentities', $_GET);
-		$aToolbar['aPost'] = array_map('htmlentities', $_POST);
-		$aToolbar['aCookie'] = array_map('htmlentities', $_COOKIE);
-		$aToolbar['aRequest'] = array_map('htmlentities', $_REQUEST);
-		$aToolbar['aSession'] = $_SESSION;
+        $aToolbar['sEnv'] = \MVC\Registry::get('MVC_ENV');
+        $aToolbar['aEnv'] = $this->buildMarkupListTree($_ENV);
+        $aToolbar['aGet'] = $this->buildMarkupListTree($_GET);
+		$aToolbar['aPost'] = $this->buildMarkupListTree($_POST);
+		$aToolbar['aCookie'] = $this->buildMarkupListTree($_COOKIE);
+		$aToolbar['aRequest'] = $this->buildMarkupListTree($_REQUEST);
+
+        $aToolbar['aSessionSettings'] = $this->buildMarkupListTree(array(
+
+            'namespace' => \MVC\Session::is()->getNamespace() . ' (which means: $_SESSION["' . \MVC\Session::is()->getNamespace() . '"])',
+            'MVC_SESSION_ENABLE' => ((\MVC\Registry::isRegistered('MVC_SESSION_ENABLE')) ? json_encode(\MVC\Registry::get('MVC_SESSION_ENABLE')) : 'false'),
+            'MVC_SESSION_PATH' => \MVC\Registry::get('MVC_SESSION_PATH'),
+            'MVC_SESSION_OPTIONS' => (\MVC\Registry::get ('MVC_SESSION_OPTIONS')),
+            'oSession' => \MVC\Session::is(),
+        ));
+		$aToolbar['aSessionKeyValues'] = $this->buildMarkupListTree($_SESSION);
+        $aToolbar['aSessionFiles'] = $this->buildMarkupListTree(
+            preg_grep('/^([^.])/', scandir(\MVC\Registry::get ('MVC_SESSION_OPTIONS')['save_path']))
+        );
+
 		$aToolbar['aSmartyTemplateVars'] = $this->buildMarkupListTree($oView->getTemplateVars());
 		$aConstants = get_defined_constants (true);
-		$aToolbar['aConstant'] = $aConstants['user'];
-		$aToolbar['aServer'] = $_SERVER;
-
-		$aToolbar['oMvcRequestGetWhitelistParams'] = \MVC\Request::getInstance ()->getWhitelistParams ();
-		$aToolbar['oMvcRequestGetQueryArray'] = \MVC\Request::getInstance ()->getQueryArray ();
-		$aToolbar['aEvent'] = ((\MVC\Registry::isRegistered ('MVC_EVENT')) ? \MVC\Registry::get ('MVC_EVENT') : array ());
-
-		$aRequest = \MVC\Request::GETCURRENTREQUEST ();		
+		$aToolbar['aConstant'] = $this->buildMarkupListTree($aConstants['user']);
+		$aToolbar['aServer'] = $this->buildMarkupListTree($_SERVER);
+		$aToolbar['oMvcRequestGetWhitelistParams'] = $this->buildMarkupListTree(\MVC\Request::getInstance ()->getWhitelistParams());
+		$aToolbar['oMvcRequestGetQueryArray'] = $this->buildMarkupListTree(array_reverse(\MVC\Request::getInstance ()->getQueryArray()));
+		$aToolbar['aEvent'] = ((\MVC\Registry::isRegistered ('MVC_EVENT')) ? \MVC\Registry::get ('MVC_EVENT') : array());
+        $aToolbar['aEventBIND'] = $this->buildMarkupListTree($aToolbar['aEvent']['BIND']);
+        $aToolbar['aEventBINDNAME'] = $this->buildMarkupListTree(Event::$aEvent);
+        $aToolbar['aEventRUN'] = $this->buildMarkupListTree($aToolbar['aEvent']['RUN']);
+        $aToolbar['aEventRUNBONDED'] = (isset($aToolbar['aEvent']['RUN_BONDED']) && false === empty($aToolbar['aEvent']['RUN_BONDED'])) ? $this->buildMarkupListTree($aToolbar['aEvent']['RUN_BONDED']) : array();
+        $aToolbar['aEventUNBIND'] = (isset($aToolbar['aEvent']['UNBIND']) && false === empty($aToolbar['aEvent']['UNBIND'])) ? $this->buildMarkupListTree($aToolbar['aEvent']['UNBIND']) : array();
 		$aToolbar['aRouting'] = array(
-			'aRequest' => \MVC\Request::GETCURRENTREQUEST (),
+			'aRequest' => \MVC\Request::GETCURRENTREQUEST(),
 			'sModule' => \MVC\Request::getInstance ()->getModule (),
 			'sController' => \MVC\Request::getInstance ()->getController (),
 			'sMethod' => \MVC\Request::getInstance ()->getMethod (),
 			'sArg' => ((isset($aToolbar['oMvcRequestGetQueryArray']['GET']['a'])) ? $aToolbar['oMvcRequestGetQueryArray']['GET']['a'] : ''),
-			'aRoute' => \MVC\Registry::get ('MVC_ROUTING_CURRENT'),
+			'aRoute' => $this->buildMarkupListTree(\MVC\Registry::get ('MVC_ROUTING_CURRENT')),
 			'sRoutingJsonBuilder' => \MVC\Registry::get ('MVC_ROUTING_JSON_BUILDER'),
 			'sRoutingHandling' => \MVC\Registry::get ('MVC_ROUTING_HANDLING')
 		);
-		
+        $aToolbar['sRoutingPath'] = \MVC\Request::GETCURRENTREQUEST()['path'];
+        $aToolbar['sRoutingQuery'] = (isset(\MVC\Request::GETCURRENTREQUEST()['query'])) ? \MVC\Request::GETCURRENTREQUEST()['query'] : '';
+
 		$aPolicy = \MVC\Registry::get ('MVC_POLICY');
 		$sController = '\\' . \MVC\Request::getInstance ()->getModule () . '\\Controller\\' . \MVC\Request::getInstance ()->getController ();
 		$sMethod = \MVC\Request::getInstance ()->getMethod ();
-		
-		$aToolbar['aPolicy']['aRule'] = ((\MVC\Registry::isRegistered ('MVC_POLICY')) ? \MVC\Registry::get ('MVC_POLICY') : array ());
-		$aToolbar['aPolicy']['aApplied'] = ((isset($aPolicy[$sController][$sMethod])) ? $aPolicy[$sController][$sMethod] : false);
+		$aToolbar['aPolicy']['aRule'] = $this->buildMarkupListTree((\MVC\Registry::isRegistered ('MVC_POLICY')) ? \MVC\Registry::get ('MVC_POLICY') : array ());
+		$aToolbar['aPolicy']['aApplied'] = $this->buildMarkupListTree((isset($aPolicy[$sController][$sMethod])) ? $aPolicy[$sController][$sMethod] : false);
 		$aToolbar['aPolicy']['sAppliedAt'] = ((isset($aPolicy[$sController][$sMethod])) ? $sController . '::' . $sMethod : false);
 		
 		$sTemplate = ((file_exists($oView->sTemplate)) ? $oView->sTemplate : ((file_exists($oView->_joined_template_dir . '/' . $oView->sTemplate)) ? $oView->_joined_template_dir . '/' . $oView->sTemplate : false));
@@ -177,7 +200,7 @@ class Index
 			, 'dMemoryPeakUsage' => (memory_get_peak_usage () / 1024)
 		);
         $aToolbar['aRegistry'] = $this->buildMarkupListTree(\MVC\Registry::getStorageArray ());
-		$aToolbar['aCache'] = $this->getCaches ();
+		$aToolbar['aCache'] = $this->buildMarkupListTree($this->getCaches());
 		$aToolbar['aError'] = \MVC\Error::getERROR();
 
 		$iMicrotime = microtime (true);
@@ -190,6 +213,10 @@ class Index
 		return $aToolbar;
 	}
 
+    /**
+     * @param $aData
+     * @return string
+     */
     protected function buildMarkupListTree($aData)
     {
         $sMarkup = '<ul class="myMvcToolbar-tree">';
