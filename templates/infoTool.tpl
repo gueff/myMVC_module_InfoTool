@@ -6,7 +6,6 @@
 {$iStyleIteration=81}
 <style>
 {literal}
-/*#myMvcToolbar h3 {color: #000;}*/
 #myMvcToolbar {/* div */
 	position: fixed !important;
 	bottom: 0px;
@@ -14,16 +13,26 @@
 	font-family: monospace, monospace;
 }
 #myMvcToolbar * {
+	box-sizing: unset !important;
+}
+#myMvcToolbar navi label, #myMvcToolbar figure {
 	font-size: 12px;
 	box-sizing: unset !important;
 }
 #myMvcToolbar_head {/* div */
 	position: fixed;
-	bottom: 50px;
+	bottom: 43px;
 	left: 0px;
 	min-width: 600px;
 	font-size: 12px;
 	z-index: -1;
+}
+figure h1,figure h2, figure h3, figure h4, figure h5, figure h6 {
+	font-family: monospace, monospace !important;
+	border-bottom: 1px solid silver;
+}
+.myMvcToolbar-float-right {
+	float: right;
 }
 .myMvcToolbar-tree {
 	overflow-wrap: break-word !important;
@@ -201,9 +210,10 @@ navi label {
 </style>
 
 <div id="myMvcToolbar">
-	<div id="myMvcToolbar_head">
-		MVC_Env: develop | PHP 7.0.8, Operating System Linux, Construction Time: 0.006 s
-	</div>
+	<div id="myMvcToolbar_head"><small>
+		MVC_Env: {$aToolbar.sEnv}| PHP {$aToolbar.sPHP}, Operating System {$aToolbar.sOS}, Construction Time: {$aToolbar.sConstructionTime} s<br>
+		myMVC: {$aToolbar.sMyMvcVersion}, MVC_UNIQUE_ID: {$aToolbar.sUniqueId}
+		</small></div>
 
 	<!-- invisible action detection -->
 	<input id="tab1" type="radio" name="tabs" />
@@ -235,7 +245,7 @@ navi label {
 				<label for="subtab12">$_POST</label>
 				<label for="subtab13">$_COOKIE</label>
 				<label for="subtab14">$_REQUEST</label>
-				<label for="subtab15">$_SESSION</label>
+				<label for="subtab15">Session</label>
 				<label for="subtab16">$_SERVER</label>
 				<label for="subtab17">$_ENV</label>
 				<label for="subtab18">Constants</label>
@@ -243,113 +253,169 @@ navi label {
 
 			<!-- content -->
 			<figure>
+
+				<a name="myMvcToolbar_top"></a>
+
 				<div class="subtab11">
 					<p>
-						<br />unfiltered Values in $_GET:
+						unfiltered Values in $_GET:<br>
+						{$aToolbar.aGet}
 					</p>
-					<pre>{$aToolbar.aGet|@print_r:true|escape:'htmlall'}</pre>
 					<p>
-						to see filtered $_GET Values by myMVC, see [myMVC] => [MVC_Request::getQueryArrays]
+						to see filtered $_GET Values by myMVC, see [myMVC] => [MVC_Request::getQueryArray]
 					</p>
 				</div>
-				<div class="subtab12"><pre>{$aToolbar.aPost|@print_r:true|escape:'htmlall'}</pre></div>
-				<div class="subtab13"><pre>{$aToolbar.aCookie|@print_r:true|escape:'htmlall'}</pre></div>
-				<div class="subtab14"><pre>{$aToolbar.aRequest|@print_r:true|escape:'htmlall'}</pre></div>
-				<div class="subtab15"><pre>{$aToolbar.aSession|@print_r:true|escape:'htmlall'}</pre></div>
-				<div class="subtab16"><pre>{$aToolbar.aServer|@print_r:true|escape:'htmlall'}</pre></div>
-				<div class="subtab17"><pre>{$aToolbar.aEnv|@print_r:true|escape:'htmlall'}</pre></div>
-				<div class="subtab18"><pre>{$aToolbar.aConstant|@print_r:true|escape:'htmlall'}</pre></div>
+				<div class="subtab12">{$aToolbar.aPost}</div>
+				<div class="subtab13">{$aToolbar.aCookie}</div>
+				<div class="subtab14">{$aToolbar.aRequest}</div>
+				<div class="subtab15">
+					<h5>Overview</h5>
+					<ul>
+						<li><a href="#myMvcToolbar_Session_KeyValues">$_SESSION Key/Values</a></li>
+						<li><a href="#myMvcToolbar_Session_Settings">Session Settings</a></li>
+						<li><a href="#myMvcToolbar_Session_Files">Session Files</a></li>
+					</ul>
+
+					<h6>$_SESSION Key/Values <a name="myMvcToolbar_Session_KeyValues"></a> <span class="myMvcToolbar-float-right"><small><a href="#myMvcToolbar_top">&uarr; top</a></small></span></h6>
+					<p>
+						{$aToolbar.aSessionKeyValues}
+					</p>
+
+					<h6>Session Settings <a name="myMvcToolbar_Session_Settings"></a> <span class="myMvcToolbar-float-right"><small><a href="#myMvcToolbar_top">&uarr; top</a></small></span></h6>
+					<p>
+						{$aToolbar.aSessionSettings}
+					</p>
+
+					<h6>Session Files <a name="myMvcToolbar_Session_Files"></a> <span class="myMvcToolbar-float-right"><small><a href="#myMvcToolbar_top">&uarr; top</a></small></span></h6>
+					<p>
+						{$aToolbar.aSessionFiles}
+					</p>
+				</div>
+				<div class="subtab16">{$aToolbar.aServer}</div>
+				<div class="subtab17">{$aToolbar.aEnv}</div>
+				<div class="subtab18">{$aToolbar.aConstant}</div>
 			</figure>
 
 		</div>
 		<div class="tab2">
 
 			<!-- invisible action detection -->
-			<input id="subtab21" type="radio" name="subtabs2" checked="checked" />
-			<input id="subtab22" type="radio" name="subtabs2" />
-			<input id="subtab23" type="radio" name="subtabs2" />
-			<input id="subtab24" type="radio" name="subtabs2" />
+			<input id="subtab24" type="radio" name="subtabs2" checked="checked" />
 			<input id="subtab25" type="radio" name="subtabs2" />
+			<input id="subtab23" type="radio" name="subtabs2" />
+			<input id="subtab22" type="radio" name="subtabs2" />
+			<input id="subtab21" type="radio" name="subtabs2" />
 
 			<!-- menu -->
 			<navi>
-				<label for="subtab21">MVC_Request::getwhitelistParams</label>
-				<label for="subtab22">MVC_Request::getQueryArray</label>
-				<label for="subtab23">MVC_Event</label>
 				<label for="subtab24">ROUTING</label>
 				<label for="subtab25">MVC_POLICY</label>
+				<label for="subtab23">MVC_Event</label>
+				<label for="subtab22">MVC_Request</label>
+				<label for="subtab21">MVC_CORE</label>
 			</navi>
 
 			<!-- content -->
 			<figure>
-				<div class="subtab21"><pre>{$aToolbar.oMvcRequestGetWhitelistParams|@print_r:true|escape:'htmlall'}</pre></div>
-				<div class="subtab22"><pre>{$aToolbar.oMvcRequestGetQueryArray|@print_r:true|escape:'htmlall'}</pre></div>
+
+				<a name="myMvcToolbar_top2"></a>
+
+				<div class="subtab21">
+					<p>
+						{$aToolbar.sMyMVCCore}
+					</p>
+				</div>
+				<div class="subtab22">
+					<h5>Overview</h5>
+					<ul>
+						<li><a href="#myMvcToolbar_getQueryArray">MVC_Request::getQueryArray</a></li>
+						<li><a href="#myMvcToolbar_getwhitelistParams">MVC_Request::getwhitelistParams</a></li>
+					</ul>
+
+					<h6>MVC_Request::getQueryArray <a name="myMvcToolbar_getQueryArray"></a> <span class="myMvcToolbar-float-right"><small><a href="#myMvcToolbar_top2">&uarr; top</a></small></span></h6>
+					<p>{$aToolbar.oMvcRequestGetQueryArray}</p>
+					<h6>MVC_Request::getwhitelistParams <a name="myMvcToolbar_getwhitelistParams"></a> <span class="myMvcToolbar-float-right"><small><a href="#myMvcToolbar_top2">&uarr; top</a></small></span></h6>
+					<p>{$aToolbar.oMvcRequestGetWhitelistParams}</p>
+				</div>
 				<div class="subtab23">
-					<h3>BIND</h3>
-					{if isset($aToolbar.aEvent.BIND)}
-						{foreach key=key item=item from=$aToolbar.aEvent.BIND}
-							BIND #<b>{$key}</b><pre class="prettyprint">{$item}</pre><br />
-						{/foreach}
+					<h5>Overview</h5>
+					<ul>
+						<li><a href="#myMvcToolbar_BINDindex">BIND <small>list by index</small></a></li>
+						<li><a href="#myMvcToolbar_BINDname">BIND <small>group by event name</small></a></li>
+						<li><a href="#myMvcToolbar_RUN">RUN</a></li>
+						<li><a href="#myMvcToolbar_UNBIND">UNBIND</a></li>
+					</ul>
+
+					<h6>BIND <small>list by index</small> <a name="myMvcToolbar_BINDindex"></a> <span class="myMvcToolbar-float-right"><small><a href="#myMvcToolbar_top2">&uarr; top</a></small></span></h6>
+					<p>
+						{$aToolbar.aEventBIND}
+					</p>
+
+					<h6>BIND <small>group by event name</small> <a name="myMvcToolbar_BINDname"></a> <span class="myMvcToolbar-float-right"><small><a href="#myMvcToolbar_top2">&uarr; top</a></small></span></h6>
+					<p>
+						{$aToolbar.aEventBINDNAME}
+					</p>
+
+					<h6>RUN <a name="myMvcToolbar_RUN"></a> <span class="myMvcToolbar-float-right"><small><a href="#myMvcToolbar_top2">&uarr; top</a></small></span></h6>
+					<p>
+						{$aToolbar.aEventRUN}
+					</p>
+
+					{if !empty($aToolbar.aEventRUNBONDED)}
+					<p>
+						<b>BONDED</b><br>
+						{$aToolbar.aEventRUNBONDED}
+					</p>
 					{/if}
 
-					<h3>RUN</h3>
-					{if isset($aToolbar.aEvent.RUN)}
-						{foreach key=key item=item from=$aToolbar.aEvent.RUN}
-							RUN #<b>{$key}</b><pre class="prettyprint">{$item}</pre><br />
-						{/foreach}
-					{/if}
-
-					{if isset($aToolbar.aEvent.RUN_BONDED)}
-						<ul>
-							{foreach key=key item=item from=$aToolbar.aEvent.RUN_BONDED}
-								<li>RUN BONDED #<b>{$key}</b><pre class="prettyprint">{$item}</pre></li>
-							{/foreach}
-						</ul>
-					{/if}
-
-					<h3>UNBIND</h3>
-					{if isset($aToolbar.aEvent.UNBIND)}
-						{foreach key=key item=item from=$aToolbar.aEvent.UNBIND}
-							UNBIND #<b>{$key}</b><pre class="prettyprint">{$item}</pre><br />
-						{/foreach}
+					<h6>UNBIND <a name="myMvcToolbar_UNBIND"></a> <span class="myMvcToolbar-float-right"><small><a href="#myMvcToolbar_top2">&uarr; top</a></small></span></h6>
+					{if !empty($aToolbar.aEventUNBIND)}
+						<p>
+							{$aToolbar.aEventUNBIND}
+						</p>
 					{/if}
 				</div>
 				<div class="subtab24">
-					<table class="table table-striped table-bordered table-hover">
-						<tr>
-							<th>Path:</th>
-							<td>{$aToolbar.aRouting.aRequest.path|escape:"htmlall":"UTF-8"}</td>
-						</tr>
-						{if isset($aToolbar.aRouting.aRequest.query)}
-							<tr>
-								<th>Query:</th>
-								<td>{$aToolbar.aRouting.aRequest.query|unescape:"url"|escape:"htmlall":"UTF-8"}</td>
-							</tr>
-						{/if}
-						<tr>
-							<th>Target:</th>
-							<td>\{$aToolbar.aRouting.sModule}\Controller\{$aToolbar.aRouting.sController}::{$aToolbar.aRouting.sMethod}({$aToolbar.aRouting.sArg|escape:"htmlall":"UTF-8"})	</td>
-						</tr>
-						<tr>
-							<th>Routing:</th>
-							<td><pre>{$aToolbar.aRouting.aRoute|@print_r:true|escape:"htmlall":"UTF-8"}</pre></td>
-						</tr>
-						<tr>
-							<th>Routing JsonBuilder:</th>
-							<td><pre>{$aToolbar.aRouting.sRoutingJsonBuilder|escape:"htmlall":"UTF-8"}</pre></td>
-						</tr>
-						<tr>
-							<th>Routing Handling:</th>
-							<td><pre>{$aToolbar.aRouting.sRoutingHandling|escape:"htmlall":"UTF-8"}</pre></td>
-						</tr>
-					</table>
+
+					<!--
+					 <span class="myMvcToolbar-float-right"><small><a href="#myMvcToolbar_top2">&uarr; top</a></small></span>
+					 -->
+					<h6>Path <a name="myMvcToolbar_Path"></a> <span class="myMvcToolbar-float-right"><small><a href="#myMvcToolbar_top2">&uarr; top</a></small></span></h6>
+					<p>{$aToolbar.sRoutingPath|escape:"htmlall":"UTF-8"}</p>
+
+					{if '' !== $aToolbar.sRoutingQuery}
+					<h6>Query <a name="myMvcToolbar_Query"></a> <span class="myMvcToolbar-float-right"><small><a href="#myMvcToolbar_top2">&uarr; top</a></small></span></h6>
+					<p>{$aToolbar.sRoutingQuery|unescape:"url"|escape:"htmlall":"UTF-8"}</p>
+					{/if}
+
+					<h6>Routing <a name="myMvcToolbar_Routing"></a> <span class="myMvcToolbar-float-right"><small><a href="#myMvcToolbar_top2">&uarr; top</a></small></span></h6>
+					<p>{$aToolbar.aRouting.aRoute}</p>
+
+					<h6>Target <a name="myMvcToolbar_Target"></a> <span class="myMvcToolbar-float-right"><small><a href="#myMvcToolbar_top2">&uarr; top</a></small></span></h6>
+					<p>\{$aToolbar.aRouting.sModule}\Controller\{$aToolbar.aRouting.sController}::{$aToolbar.aRouting.sMethod}({$aToolbar.aRouting.sArg|escape:"htmlall":"UTF-8"})	</p>
+
+					<h6>Routing JsonBuilder <a name="myMvcToolbar_Routing_JsonBuilder"></a> <span class="myMvcToolbar-float-right"><small><a href="#myMvcToolbar_top2">&uarr; top</a></small></span></h6>
+					<p>{$aToolbar.aRouting.sRoutingJsonBuilder|escape:"htmlall":"UTF-8"}</p>
+
+					<h6>Routing Handling <a name="myMvcToolbar_Routing_Handling"></a> <span class="myMvcToolbar-float-right"><small><a href="#myMvcToolbar_top2">&uarr; top</a></small></span></h6>
+					<p>{$aToolbar.aRouting.sRoutingHandling|escape:"htmlall":"UTF-8"}</p>
 				</div>
 				<div class="subtab25">
-					<h3>RULES</h3>
-					<pre>{$aToolbar.aPolicy.aRule|@print_r:true|escape:'htmlall'}</pre>
-					<h3>APPLIED</h3>
-					<b>{$aToolbar.aPolicy.sAppliedAt}</b><br />
-					<pre>{$aToolbar.aPolicy.aApplied|@print_r:true|escape:'htmlall'}</pre>
+					<h5>Overview</h5>
+					<ul>
+						<li><a href="#myMvcToolbar_RULES">POLICY RULES</a></li>
+						<li><a href="#myMvcToolbar_APPLIED">POLICY RULES APPLIED</a></li>
+					</ul>
+
+					<h6>POLICY RULES <a name="myMvcToolbar_RULES"></a> <span class="myMvcToolbar-float-right"><small><a href="#myMvcToolbar_top2">&uarr; top</a></small></span></h6>
+					<p>
+						{$aToolbar.aPolicy.aRule}
+					</p>
+					<h6>POLICY RULES APPLIED <a name="myMvcToolbar_APPLIED"></a> <span class="myMvcToolbar-float-right"><small><a href="#myMvcToolbar_top2">&uarr; top</a></small></span></h6>
+					<p>
+						<b>{$aToolbar.aPolicy.sAppliedAt}</b><br />
+						{$aToolbar.aPolicy.aApplied}
+					</p>
 				</div>
 			</figure>
 		</div>
@@ -369,6 +435,9 @@ navi label {
 
 			<!-- content -->
 			<figure style="width: 1000px;">
+
+				<a name="myMvcToolbar_top"></a>
+
 				<div class="subtab31">
 					<ul>
 						<li><b>Template</b>: {$aToolbar.sTemplate|replace:$aRegistry.MVC_VIEW_TEMPLATES:''|escape:'htmlall'}</li>
@@ -395,6 +464,9 @@ navi label {
 
 			<!-- content -->
 			<figure>
+
+				<a name="myMvcToolbar_top"></a>
+
 				<div class="subtab41">
 					<b>MVC_BASE_PATH</b>: {$aRegistry.MVC_BASE_PATH|escape:'htmlall'}
 					<hr>
@@ -417,6 +489,9 @@ navi label {
 
 			<!-- content -->
 			<figure>
+
+				<a name="myMvcToolbar_top"></a>
+
 				<div class="subtab51">
 					<b>Real Memory Usage</b>: {$aToolbar.aMemory.iRealMemoryUsage} KB<br />
 					<b>Memory Usage</b>: {$aToolbar.aMemory.dMemoryUsage} KB<br />
@@ -436,6 +511,9 @@ navi label {
 
 			<!-- content -->
 			<figure style="width: 1000px;">
+
+				<a name="myMvcToolbar_top"></a>
+
 				<div class="subtab61">{$aToolbar.aRegistry}</div>
 			</figure>
 		</div>
@@ -451,7 +529,10 @@ navi label {
 
 			<!-- content -->
 			<figure>
-				<div class="subtab71"><pre>{$aToolbar.aCache|@print_r:true|escape:'htmlall'}</pre></div>
+
+				<a name="myMvcToolbar_top"></a>
+
+				<div class="subtab71">{$aToolbar.aCache}</div>
 			</figure>
 		</div>
 		<div class="tab8">
@@ -466,6 +547,9 @@ navi label {
 
 			<!-- content -->
 			<figure>
+
+				<a name="myMvcToolbar_top"></a>
+
 				<div class="subtab81">{foreach key=key item=item from=$aToolbar.aError}<b>{$key}</b>: {$item}<br />{/foreach}</div>
 			</figure>
 		</div>
@@ -473,26 +557,26 @@ navi label {
 
 	<!-- Main menu -->
 	<navi>
-		<label for="tab1">
-			<i class="fa fa-cubes"></i> Variables
-		</label>
 		<label for="tab2">
 			<i class="fa fa-cube"></i> myMVC
 		</label>
+		<label for="tab1">
+			<i class="fa fa-cubes"></i> Variables
+		</label>
 		<label for="tab3">
 			<i class="fa fa-code"></i> View
-		</label>
-		<label for="tab4">
-			<i class="fa fa-file-o"></i> Files
-		</label>
-		<label for="tab5">
-			<i class="fa fa-bar-chart-o"></i> Memory
 		</label>
 		<label for="tab6">
 			<i class="fa fa-key"></i> Registry
 		</label>
 		<label for="tab7">
 			<i class="fa fa-refresh"></i> Cache
+		</label>
+		<label for="tab4">
+			<i class="fa fa-file-o"></i> Files
+		</label>
+		<label for="tab5">
+			<i class="fa fa-bar-chart-o"></i> Memory
 		</label>
 		{if !empty($aToolbar.aError)}
 		<label for="tab8" class="myMvcToolbar-bg-danger">
