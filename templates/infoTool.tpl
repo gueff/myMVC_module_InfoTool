@@ -27,6 +27,9 @@
 	font-size: 12px;
 	z-index: -1;
 }
+#myMvcToolbar_head span {
+	background-color: antiquewhite;
+}
 figure h1,figure h2, figure h3, figure h4, figure h5, figure h6 {
 	font-family: monospace, monospace !important;
 	border-bottom: 1px solid silver;
@@ -210,10 +213,11 @@ navi label {
 </style>
 
 <div id="myMvcToolbar">
-	<div id="myMvcToolbar_head"><small>
-		MVC_Env: {$aToolbar.sEnv}| PHP {$aToolbar.sPHP}, Operating System {$aToolbar.sOS}, Construction Time: {$aToolbar.sConstructionTime} s<br>
-		myMVC: {$aToolbar.sMyMvcVersion}, MVC_UNIQUE_ID: {$aToolbar.sUniqueId}
-		</small></div>
+	<div id="myMvcToolbar_head">
+		<span>PHP {$aToolbar.sPHP}, Operating System {$aToolbar.sOS}, Construction Time: {$aToolbar.sConstructionTime} s</span>
+		<br>
+		<span>myMVC: {$aToolbar.sMyMvcVersion}, MVC_ENV: {$aToolbar.sEnv}, MVC_UNIQUE_ID: {$aToolbar.sUniqueId}</span>
+	</div>
 
 	<!-- invisible action detection -->
 	<input id="tab1" type="radio" name="tabs" />
