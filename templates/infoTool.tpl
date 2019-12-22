@@ -216,7 +216,7 @@ navi label {
 	<div id="myMvcToolbar_head">
 		<span>PHP {$aToolbar.sPHP}, Operating System {$aToolbar.sOS}, Construction Time: {$aToolbar.sConstructionTime} s</span>
 		<br>
-		<span>myMVC: {$aToolbar.sMyMvcVersion}, MVC_ENV: {$aToolbar.sEnv}, MVC_UNIQUE_ID: {$aToolbar.sUniqueId}</span>
+		<span>myMVC: {$aToolbar.sMyMvcVersion}, MVC_ENV: {$aToolbar.sEnv}, MVC_UNIQUE_ID: {$aToolbar.sUniqueId}, session_id(): {$aToolbar.session_id}</span>
 	</div>
 
 	<!-- invisible action detection -->

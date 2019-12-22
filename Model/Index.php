@@ -136,11 +136,11 @@ class Index
 		$aToolbar['aPost'] = $this->buildMarkupListTree($_POST);
 		$aToolbar['aCookie'] = $this->buildMarkupListTree($_COOKIE);
 		$aToolbar['aRequest'] = $this->buildMarkupListTree($_REQUEST);
-
+        $aToolbar['session_id'] = session_id();
         $aToolbar['aSessionSettings'] = $this->buildMarkupListTree(array(
 
             'namespace' => \MVC\Session::is()->getNamespace() . ' (which means: $_SESSION["' . \MVC\Session::is()->getNamespace() . '"])',
-            'session_id' => session_id(),
+            'session_id' => $aToolbar['session_id'],
             'MVC_SESSION_ENABLE' => ((\MVC\Registry::isRegistered('MVC_SESSION_ENABLE')) ? json_encode(\MVC\Registry::get('MVC_SESSION_ENABLE')) : 'false'),
             'MVC_SESSION_PATH' => \MVC\Registry::get('MVC_SESSION_PATH'),
             'MVC_SESSION_OPTIONS' => (\MVC\Registry::get ('MVC_SESSION_OPTIONS')),
