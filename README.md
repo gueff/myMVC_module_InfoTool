@@ -1,5 +1,5 @@
 # myMVC_module_InfoTool
-This is a Debug-Toolbar module for [myMVC > 1.1.1 (dev-master)](https://github.com/gueff/myMVC/tree/9d2fab5b4e7f9fcd57a788ab86a145c169e4c9ad)
+This is a Debug-Toolbar module for [myMVC > 1.1.1 (dev-master)](https://github.com/gueff/myMVC)
 
 If you need this for myMVC <= 1.1.1, take this Version of myMVC_module_InfoTool: https://github.com/gueff/myMVC_module_InfoTool/releases/tag/1.0.0
 
@@ -17,7 +17,7 @@ and place it inside myMVC's `modules` folder:
         [..]
     public
     composer.json
-    manager.php
+    myMVC.phar
     README.md
 ~~~
 
