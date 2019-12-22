@@ -28,6 +28,8 @@
 	z-index: -1;
 }
 #myMvcToolbar_head span {
+	font-family: monospace, monospace;
+	font-size: 10px;
 	background-color: antiquewhite;
 }
 figure h1,figure h2, figure h3, figure h4, figure h5, figure h6 {
@@ -73,7 +75,7 @@ figure h1,figure h2, figure h3, figure h4, figure h5, figure h6 {
 
 #myMvcToolbar figure {
 	display: block;
-	margin: 0 0 120px 0px;
+	margin: 0 0 135px 0px;
 	clear: both;
 	/* height sub menu*/
 	min-height: 80px;
