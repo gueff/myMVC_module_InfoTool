@@ -57,6 +57,12 @@ figure h1,figure h2, figure h3, figure h4, figure h5, figure h6 {
 	background-color: darkred !important;
 	color: white !important;
 }
+.myMvcToolbar-bg-kbd {
+	background-color: #333 !important;
+	border-radius: 3px;
+	color: white !important;
+	padding: 10px;
+}
 .myMvcToolbarBlink {
 	animation: myMvcToolbarBlink 1s steps(5, start) infinite;
 	-webkit-animation: myMvcToolbarBlink 1s steps(5, start) infinite;
@@ -118,7 +124,7 @@ navi label {
  */
 .tab1, .tab2, .tab3, .tab4, .tab6 {height: 600px !important;}
 .tab5 {height: 100px !important;}
-.tab7, .tab8 {height: 300px !important;}
+.tab7 {height: 300px !important;}
 
 {/literal}
 {section name=columns start=0 step=1 loop=$iStyleIteration}
@@ -548,15 +554,29 @@ navi label {
 
 			<!-- menu -->
 			<navi>
-				<label for="subtab81">Last Error</label>
+				<label for="subtab81">Error</label>
 			</navi>
 
 			<!-- content -->
-			<figure>
+			<figure style="width: 1000px;">
 
 				<a name="myMvcToolbar_top"></a>
 
-				<div class="subtab81">{foreach key=key item=item from=$aToolbar.aError}<b>{$key}</b>: {$item}<br />{/foreach}</div>
+				<div class="subtab81">
+					<ul>
+					{foreach key=key item=oDTArrayObject from=$aToolbar.aError}
+						{assign var="_sErrorTime" value="."|explode:$oDTArrayObject->getDTKeyValueByKey('_sErrorTime')->get_sValue()}
+						<li>
+							<b>{$key}: {$oDTArrayObject->getDTKeyValueByKey('sMessage')->get_sValue()}</b>
+							<span class="myMvcToolbar-float-right">
+								🕑{$oDTArrayObject->getDTKeyValueByKey('_sErrorTime')->get_sValue()|date_format:"%Y-%m-%d, %T"}.{$_sErrorTime[1]}
+							</span>
+							<hr>
+							<pre class="myMvcToolbar-bg-kbd">{$oDTArrayObject->getDTKeyValueByKey('oException')->get_sValue()}</pre>
+						</li>
+					{/foreach}
+					</ul>
+				</div>
 			</figure>
 		</div>
 	</figure>

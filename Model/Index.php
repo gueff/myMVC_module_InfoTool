@@ -13,6 +13,7 @@
  */
 namespace InfoTool\Model;
 
+use MVC\DataType\DTArrayObject;
 use MVC\Event;
 use MVC\Helper;
 
@@ -202,7 +203,7 @@ class Index
 		);
         $aToolbar['aRegistry'] = $this->buildMarkupListTree(\MVC\Registry::getStorageArray ());
 		$aToolbar['aCache'] = $this->buildMarkupListTree($this->getCaches());
-		$aToolbar['aError'] = \MVC\Error::getERROR();
+        $aToolbar['aError'] = \MVC\Error::getERROR();
 
 		$iMicrotime = microtime (true);
 		$sMicrotime = sprintf ("%06d", ($iMicrotime - floor ($iMicrotime)) * 1000000);
