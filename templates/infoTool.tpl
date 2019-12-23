@@ -610,6 +610,7 @@ navi label {
 			<i class="fa fa-warning myMvcToolbarBlink"></i> Error
 		</label>
 		{/if}
+		<label id="myMvcToolbar_toggle" class="myMvcToolbar-bg-info" title="toggle"><b>&larr;&rarr;</b></label>
 	</navi>
 
 </div>
@@ -627,8 +628,21 @@ navi label {
 	window.handleState = function handleState () {if (['interactive', 'complete'].indexOf(document.readyState) > -1) {while(window.readyHandlers.length > 0) {(window.readyHandlers.shift())();}}};
 	document.onreadystatechange = window.handleState;
 
+	function getOffset(oElement) {
+		var rect = oElement.getBoundingClientRect(),
+				scrollLeft = window.pageXOffset || document.documentElement.scrollLeft,
+				scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+		return { top: rect.top + scrollTop, left: rect.left + scrollLeft }
+	}
+
 	document.getElementById("myMvcToolbar").addEventListener("click", function(oEvent){
 		oEvent.stopPropagation();
+	});
+
+	document.getElementById("myMvcToolbar_toggle").addEventListener("click", function(oEvent){
+		var oCoords = getOffset(this);
+		document.getElementById("myMvcToolbar_head").style.left = "-" + oCoords.left + "px";
+		document.getElementById("myMvcToolbar").style.left = "-" + oCoords.left + "px";
 	});
 
 	window.addEventListener('click', function (evt) {
@@ -645,6 +659,7 @@ navi label {
 		hljs.initHighlightingOnLoad();
 		console.log('%cmyMVC %cInfoTool', 'color: blue;', 'color: red;');
 		console.dir({/literal}{$aToolbar|json_encode}{literal});
+
 	});
 	{/literal}
 </script>
