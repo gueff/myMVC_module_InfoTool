@@ -11,6 +11,7 @@
 	bottom: 0px;
 	left: 0px;
 	font-family: monospace, monospace;
+	z-index: 9999999999 !important;
 }
 #myMvcToolbar * {
 	box-sizing: unset !important;

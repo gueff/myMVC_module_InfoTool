@@ -221,6 +221,11 @@ class Index
      */
     protected function buildMarkupListTree($aData)
     {
+        if (false === is_array($aData))
+        {
+            return '';
+        }
+
         $sMarkup = '<ul class="myMvcToolbar-tree">';
 
         foreach ($aData as $sKey => $mValue)
