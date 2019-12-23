@@ -11,6 +11,7 @@
 	bottom: 0px;
 	left: 0px;
 	font-family: monospace, monospace;
+	display: none;
 	z-index: 9999999999 !important;
 }
 #myMvcToolbar * {
@@ -668,8 +669,10 @@ navi label {
 			fMyMvcToolbar_toggle = 0;
 		}
 
-		document.getElementById("myMvcToolbar_head").style.left = "-" +localStorage.getItem('myMvcToolbar_toggle') + "px";
+		document.getElementById("myMvcToolbar").style.display = "block";
+		document.getElementById("myMvcToolbar_head").style.display = "block";
 		document.getElementById("myMvcToolbar").style.left = "-" + localStorage.getItem('myMvcToolbar_toggle') + "px";
+		document.getElementById("myMvcToolbar_head").style.left = "-" +localStorage.getItem('myMvcToolbar_toggle') + "px";
 		console.log("localStorage.getItem('myMvcToolbar_toggle')", localStorage.getItem('myMvcToolbar_toggle'));
 
 	});
