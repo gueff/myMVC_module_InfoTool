@@ -640,9 +640,11 @@ navi label {
 	});
 
 	document.getElementById("myMvcToolbar_toggle").addEventListener("click", function(oEvent){
+
 		var oCoords = getOffset(this);
 		document.getElementById("myMvcToolbar_head").style.left = "-" + oCoords.left + "px";
 		document.getElementById("myMvcToolbar").style.left = "-" + oCoords.left + "px";
+		localStorage.setItem("myMvcToolbar_toggle", oCoords.left);
 	});
 
 	window.addEventListener('click', function (evt) {
@@ -659,6 +661,16 @@ navi label {
 		hljs.initHighlightingOnLoad();
 		console.log('%cmyMVC %cInfoTool', 'color: blue;', 'color: red;');
 		console.dir({/literal}{$aToolbar|json_encode}{literal});
+
+		var fMyMvcToolbar_toggle = localStorage.getItem('myMvcToolbar_toggle');
+		if (null === fMyMvcToolbar_toggle) {
+			localStorage.setItem("myMvcToolbar_toggle", 0);
+			fMyMvcToolbar_toggle = 0;
+		}
+
+		document.getElementById("myMvcToolbar_head").style.left = "-" +localStorage.getItem('myMvcToolbar_toggle') + "px";
+		document.getElementById("myMvcToolbar").style.left = "-" + localStorage.getItem('myMvcToolbar_toggle') + "px";
+		console.log("localStorage.getItem('myMvcToolbar_toggle')", localStorage.getItem('myMvcToolbar_toggle'));
 
 	});
 	{/literal}
