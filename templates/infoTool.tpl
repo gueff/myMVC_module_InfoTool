@@ -673,8 +673,6 @@ navi label {
 		document.getElementById("myMvcToolbar_head").style.display = "block";
 		document.getElementById("myMvcToolbar").style.left = "-" + localStorage.getItem('myMvcToolbar_toggle') + "px";
 		document.getElementById("myMvcToolbar_head").style.left = "-" +localStorage.getItem('myMvcToolbar_toggle') + "px";
-		console.log("localStorage.getItem('myMvcToolbar_toggle')", localStorage.getItem('myMvcToolbar_toggle'));
-
 	});
 	{/literal}
 </script>
