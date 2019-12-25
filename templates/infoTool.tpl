@@ -1,4 +1,8 @@
-{* see /InfoTool/README.md for more Info *}
+{*
+colors
+---------
+blue: hsl(210,50%,50%)
+*}
 
 <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/styles/default.min.css">
 
@@ -37,6 +41,12 @@
 figure h1,figure h2, figure h3, figure h4, figure h5, figure h6 {
 	font-family: monospace, monospace !important;
 	border-bottom: 1px solid silver;
+}
+figure h6 {
+	/*background-color: hsl(210,50%,50%);*/
+	/*font-size: 16px !important;*/
+	font-weight: bold;
+	/*color: white;*/
 }
 .myMvcToolbar-float-right {
 	float: right;
@@ -272,18 +282,14 @@ navi label {
 
 				<div class="subtab11">
 					<p>
-						unfiltered Values in $_GET:<br>
 						{$aToolbar.aGet}
-					</p>
-					<p>
-						to see filtered $_GET Values by myMVC, see [myMVC] => [MVC_Request::getQueryArray]
 					</p>
 				</div>
 				<div class="subtab12">{$aToolbar.aPost}</div>
 				<div class="subtab13">{$aToolbar.aCookie}</div>
 				<div class="subtab14">{$aToolbar.aRequest}</div>
 				<div class="subtab15">
-					<h5>Overview</h5>
+					<h6>Overview</h6>
 					<ul>
 						<li><a href="#myMvcToolbar_Session_KeyValues">$_SESSION Key/Values</a></li>
 						<li><a href="#myMvcToolbar_Session_Settings">Session Settings</a></li>
@@ -340,7 +346,7 @@ navi label {
 					</p>
 				</div>
 				<div class="subtab22">
-					<h5>Overview</h5>
+					<h6>Overview</h6>
 					<ul>
 						<li><a href="#myMvcToolbar_getQueryArray">MVC_Request::getQueryArray</a></li>
 						<li><a href="#myMvcToolbar_getwhitelistParams">MVC_Request::getwhitelistParams</a></li>
@@ -352,7 +358,7 @@ navi label {
 					<p>{$aToolbar.oMvcRequestGetWhitelistParams}</p>
 				</div>
 				<div class="subtab23">
-					<h5>Overview</h5>
+					<h6>Overview</h6>
 					<ul>
 						<li><a href="#myMvcToolbar_BINDindex">BIND <small>list by index</small></a></li>
 						<li><a href="#myMvcToolbar_BINDname">BIND <small>group by event name</small></a></li>
@@ -415,7 +421,7 @@ navi label {
 					<p>{$aToolbar.aRouting.sRoutingHandling|escape:"htmlall":"UTF-8"}</p>
 				</div>
 				<div class="subtab25">
-					<h5>Overview</h5>
+					<h6>Overview</h6>
 					<ul>
 						<li><a href="#myMvcToolbar_RULES">POLICY RULES</a></li>
 						<li><a href="#myMvcToolbar_APPLIED">POLICY RULES APPLIED</a></li>
@@ -453,11 +459,15 @@ navi label {
 				<a name="myMvcToolbar_top"></a>
 
 				<div class="subtab31">
-					<ul>
-						<li><b>Template</b>: {$aToolbar.sTemplate|replace:$aRegistry.MVC_VIEW_TEMPLATES:''|escape:'htmlall'}</li>
-						<li><b>Template Folder</b>: {$aRegistry.MVC_VIEW_TEMPLATES|escape:'htmlall'}</li>
-					</ul>
-					<hr>
+					<h6>Template File</h6>
+					<p>
+						{$aToolbar.sTemplate|replace:$aToolbar.aRegistry.MVC_VIEW_TEMPLATES:''|escape:'htmlall'}
+					</p>
+					<h6>Template Folder</h6>
+					<p>
+						{$aToolbar.aRegistry.MVC_VIEW_TEMPLATES|escape:'htmlall'}
+					</p>
+					<h6>Template Content</h6>
 					<!-- @see https://www.w3schools.com/howto/tryit.asp?filename=tryhow_syntax_highlight -->
 					<pre class="prettyprint"><code class="html">{$aToolbar.sTemplateContent|escape:'htmlall'}</code></pre>
 				</div>
@@ -482,12 +492,16 @@ navi label {
 				<a name="myMvcToolbar_top"></a>
 
 				<div class="subtab41">
-					<b>MVC_BASE_PATH</b>: {$aRegistry.MVC_BASE_PATH|escape:'htmlall'}
-					<hr>
+					<h6>MVC_BASE_PATH</h6>
+					<p>
+						{$aToolbar.aRegistry.MVC_BASE_PATH|escape:'htmlall'}
+					</p>
+					<h6>Files</h6>
 					<ol class="prettyprint">
 						{foreach key=key item=item from=$aToolbar.aFilesIncluded}
-							<li>{$item|replace:$aRegistry.MVC_BASE_PATH:''|escape:'htmlall'}</li>
+							<li>{$item|replace:$aToolbar.aRegistry.MVC_BASE_PATH:''|escape:'htmlall'}</li>
 						{/foreach}
+					</ol>
 				</div>
 			</figure>
 		</div>
@@ -528,7 +542,7 @@ navi label {
 
 				<a name="myMvcToolbar_top"></a>
 
-				<div class="subtab61">{$aToolbar.aRegistry}</div>
+				<div class="subtab61">{$aToolbar.sRegistry}</div>
 			</figure>
 		</div>
 		<div class="tab7">
@@ -546,7 +560,16 @@ navi label {
 
 				<a name="myMvcToolbar_top"></a>
 
-				<div class="subtab71">{$aToolbar.aCache}</div>
+				<div class="subtab71">
+					<h6>Cache Folder</h6>
+					<p>
+						{$aToolbar.aRegistry.MVC_CACHE_DIR}
+					</p>
+					<h6>Cache Files</h6>
+					<p>
+						{$aToolbar.aCache}
+					</p>
+				</div>
 			</figure>
 		</div>
 		<div class="tab8">

@@ -201,7 +201,8 @@ class Index
 			, 'dMemoryUsage' => (memory_get_usage () / 1024)
 			, 'dMemoryPeakUsage' => (memory_get_peak_usage () / 1024)
 		);
-        $aToolbar['aRegistry'] = $this->buildMarkupListTree(\MVC\Registry::getStorageArray ());
+        $aToolbar['aRegistry'] = \MVC\Registry::getStorageArray ();
+        $aToolbar['sRegistry'] = $this->buildMarkupListTree($aToolbar['aRegistry']);
 		$aToolbar['aCache'] = $this->buildMarkupListTree($this->getCaches());
         $aToolbar['aError'] = \MVC\Error::getERROR();
 
