@@ -43,10 +43,7 @@ figure h1,figure h2, figure h3, figure h4, figure h5, figure h6 {
 	border-bottom: 1px solid silver;
 }
 figure h6 {
-	/*background-color: hsl(210,50%,50%);*/
-	/*font-size: 16px !important;*/
 	font-weight: bold;
-	/*color: white;*/
 }
 .myMvcToolbar-float-right {
 	float: right;
@@ -93,11 +90,7 @@ figure h6 {
 
 #myMvcToolbar figure {
 	display: block;
-	margin: 0 0 135px 0px;
 	clear: both;
-	/* height sub menu*/
-	min-height: 80px;
-	max-height: 600px;
 }
 
 #myMvcToolbar > input,
@@ -112,6 +105,7 @@ figure h6 {
 	letter-spacing: 0.3px;
 	color: #333;
 	background-color: transparent;
+	margin: 0 0 125px 0px;
 }
 
 navi label:nth-child(1) { border-left: 1px solid silver; }
