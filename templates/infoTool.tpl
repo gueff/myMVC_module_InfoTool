@@ -131,6 +131,7 @@ navi label {
 .tab1, .tab2, .tab3, .tab4, .tab6 {height: 600px !important;}
 .tab5 {height: 100px !important;}
 .tab7 {height: 300px !important;}
+.tab8 {height: 600px !important;}
 
 {/literal}
 {section name=columns start=0 step=1 loop=$iStyleIteration}
@@ -577,7 +578,7 @@ navi label {
 			</navi>
 
 			<!-- content -->
-			<figure style="width: 1000px;">
+			<figure>
 
 				<a name="myMvcToolbar_top"></a>
 
