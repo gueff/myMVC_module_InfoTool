@@ -677,7 +677,10 @@ navi label {
 
 	ready(function () {
 
-		hljs.initHighlightingOnLoad();
+		document.querySelectorAll('pre.prettyprint').forEach((block) => {
+			hljs.highlightBlock(block);
+		});
+
 		console.log('%cmyMVC %cInfoTool', 'color: blue;', 'color: red;');
 		console.dir({/literal}{$aToolbar|json_encode}{literal});
 
