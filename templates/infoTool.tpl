@@ -4,7 +4,7 @@ colors
 blue: hsl(210,50%,50%)
 *}
 
-<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/styles/default.min.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/styles/vs.min.css">
 
 {* value for css automatic generation parts *}
 {$iStyleIteration=81}
@@ -44,6 +44,9 @@ figure h1,figure h2, figure h3, figure h4, figure h5, figure h6 {
 }
 figure h6 {
 	font-weight: bold;
+}
+pre.prettyprint {
+	font-size: 12px !important;
 }
 .myMvcToolbar-float-right {
 	float: right;
@@ -128,9 +131,9 @@ navi label {
 /**
  main menu
  */
-.tab1, .tab2, .tab3, .tab4, .tab6 {height: 600px !important;}
+.tab1, .tab2, .tab3, .tab4, .tab6, .tab7, .tab8 {height: 600px !important;}
+/*.tab7 {height: 300px !important;}*/
 .tab5 {height: 100px !important;}
-.tab7 {height: 300px !important;}
 .tab8 {height: 600px !important;}
 
 {/literal}
@@ -464,7 +467,7 @@ navi label {
 					</p>
 					<h6>Template Content</h6>
 					<!-- @see https://www.w3schools.com/howto/tryit.asp?filename=tryhow_syntax_highlight -->
-					<pre class="prettyprint"><code class="html">{$aToolbar.sTemplateContent|escape:'htmlall'}</code></pre>
+					<pre class="prettyprint">{$aToolbar.sTemplateContent|escape:'htmlall'}</pre>
 				</div>
 {*				<div class="subtab32"><pre>{$aToolbar.aSmartyTemplateVars|@print_r:true|escape:'htmlall'}</pre></div>*}
 				<div class="subtab32">{$aToolbar.aSmartyTemplateVars}</div>
