@@ -4,8 +4,6 @@ colors
 blue: hsl(210,50%,50%)
 *}
 
-<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/styles/vs.min.css">
-
 {* value for css automatic generation parts *}
 {$iStyleIteration=81}
 <style>
@@ -638,7 +636,10 @@ navi label {
 </div>
 
 
+<!--
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/styles/vs.min.css">
 <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/highlight.min.js"></script>
+-->
 <script defer>
 	{literal}
 	/**
@@ -680,9 +681,11 @@ navi label {
 
 	ready(function () {
 
+		/*
 		document.querySelectorAll('pre.prettyprint').forEach((block) => {
 			hljs.highlightBlock(block);
 		});
+		*/
 
 		console.log('%cmyMVC %cInfoTool', 'color: blue;', 'color: red;');
 		console.dir({/literal}{$aToolbar|json_encode}{literal});
