@@ -632,7 +632,6 @@ navi label {
 		{/if}
 		<label id="myMvcToolbar_toggle" class="myMvcToolbar-bg-info" title="toggle"><b>&larr;&rarr;</b></label>
 	</navi>
-
 </div>
 
 
