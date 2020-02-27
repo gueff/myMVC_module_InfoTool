@@ -393,9 +393,6 @@ navi label {
 				</div>
 				<div class="subtab24">
 
-					<!--
-					 <span class="myMvcToolbar-float-right"><small><a href="#myMvcToolbar_top2">&uarr; top</a></small></span>
-					 -->
 					<h6>Path <a name="myMvcToolbar_Path"></a> <span class="myMvcToolbar-float-right"><small><a href="#myMvcToolbar_top2">&uarr; top</a></small></span></h6>
 					<p>{$aToolbar.sRoutingPath|escape:"htmlall":"UTF-8"}</p>
 
@@ -467,7 +464,6 @@ navi label {
 					<!-- @see https://www.w3schools.com/howto/tryit.asp?filename=tryhow_syntax_highlight -->
 					<pre class="prettyprint">{$aToolbar.sTemplateContent|escape:'htmlall'}</pre>
 				</div>
-{*				<div class="subtab32"><pre>{$aToolbar.aSmartyTemplateVars|@print_r:true|escape:'htmlall'}</pre></div>*}
 				<div class="subtab32">{$aToolbar.aSmartyTemplateVars}</div>
 				<div class="subtab33"><pre class="prettyprint"><code class="html">{$aToolbar.sRendered|escape:'htmlall'}</code></pre></div>
 			</figure>
@@ -635,10 +631,6 @@ navi label {
 </div>
 
 
-<!--
-<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/styles/vs.min.css">
-<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/highlight.min.js"></script>
--->
 <script defer>
 	{literal}
 	/**
@@ -679,12 +671,6 @@ navi label {
 	});
 
 	ready(function () {
-
-		/*
-		document.querySelectorAll('pre.prettyprint').forEach((block) => {
-			hljs.highlightBlock(block);
-		});
-		*/
 
 		console.log('%cmyMVC %cInfoTool', 'color: blue;', 'color: red;');
 		console.dir({/literal}{$aToolbar|json_encode}{literal});
