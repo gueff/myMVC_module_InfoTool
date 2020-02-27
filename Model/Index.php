@@ -182,8 +182,6 @@ class Index
         $aToolbar['aPolicy']['aRule'] = $this->buildMarkupListTree((\MVC\Registry::isRegistered ('MVC_POLICY')) ? \MVC\Registry::get ('MVC_POLICY') : array ());
         $aToolbar['aPolicy']['aApplied'] = $this->buildMarkupListTree((isset($aPolicy[$sController][$sMethod])) ? $aPolicy[$sController][$sMethod] : false);
         $aToolbar['aPolicy']['sAppliedAt'] = ((isset($aPolicy[$sController][$sMethod])) ? $sController . '::' . $sMethod : false);
-
-        #$sTemplate = $oView->sTemplate; # ((file_exists($oView->sTemplate)) ? $oView->sTemplate : ((file_exists($oView->_joined_template_dir . '/' . $oView->sTemplate)) ? $oView->_joined_template_dir . '/' . $oView->sTemplate : false));
         $aToolbar['sTemplate'] = $oView->sTemplate;
         $aToolbar['sTemplateContent'] = file_get_contents ($aToolbar['sTemplate'], true);
 
