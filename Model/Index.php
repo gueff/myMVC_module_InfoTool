@@ -14,7 +14,6 @@
 namespace InfoTool\Model;
 
 use MVC\Event;
-use MVC\Helper;
 
 /**
  * Index
@@ -32,7 +31,7 @@ class Index
 
     /**
      * Index constructor.
-     * adds Event Listerner to 'mvc.view.render.before'<br>
+     * adds Event Listerner to 'mvc.view.render.before'
      * starts collecting Infos and save it to Registry
      *
      * @param \Smarty $oView
@@ -41,7 +40,7 @@ class Index
     public function __construct (\Smarty $oView)
     {
         // add toolbar at the right time
-        \MVC\Event::BIND ('mvc.view.render.begin', function (\MVC\DataType\DTArrayObject $oDTArrayObject) {
+        \MVC\Event::BIND ('mvc.view.render.before', function (\MVC\DataType\DTArrayObject $oDTArrayObject) {
             \InfoTool\Model\Index::injectToolbar ($oDTArrayObject->getDTKeyValueByKey('oView')->get_sValue());
         });
 
@@ -72,39 +71,39 @@ class Index
         // inject toolbar var to regular string output via DOM
         INJECT: {
 
-        $oDom = new \DOMDocument(null, null);
+            $oDom = new \DOMDocument(null, null);
 
-        // prevent error messages occuring by using DOM
-        // @see http://stackoverflow.com/a/6090728/2487859
-        libxml_use_internal_errors (true);
-        // DOMDocument::loadHTML will treat your string as being in ISO-8859-1 unless you tell it otherwise.
-        // @see http://stackoverflow.com/a/8218649/2487859
-        $oDom->loadHTML (
-            mb_convert_encoding(
-                $aToolbar['sRendered'],
-                'HTML-ENTITIES',
-                'UTF-8'
-            )
-        );
-        libxml_clear_errors ();
+            // prevent error messages occuring by using DOM
+            // @see http://stackoverflow.com/a/6090728/2487859
+            libxml_use_internal_errors (true);
+            // DOMDocument::loadHTML will treat your string as being in ISO-8859-1 unless you tell it otherwise.
+            // @see http://stackoverflow.com/a/8218649/2487859
+            $oDom->loadHTML (
+                mb_convert_encoding(
+                    $aToolbar['sRendered'],
+                    'HTML-ENTITIES',
+                    'UTF-8'
+                )
+            );
+            libxml_clear_errors ();
 
-        // add toolbar tag as a placeholder before body closing tag
-        $oNode = $oDom->createElement ($sToolBarVarName);
-        $oBody = $oDom->getElementsByTagName ('body');
+            // add toolbar tag as a placeholder before body closing tag
+            $oNode = $oDom->createElement ($sToolBarVarName);
+            $oBody = $oDom->getElementsByTagName ('body');
 
-        foreach ($oBody as $oItem)
-        {
-            $oItem->appendChild ($oNode);
+            foreach ($oBody as $oItem)
+            {
+                $oItem->appendChild ($oNode);
+            }
+
+            $sHtml = $oDom->saveHTML ();
+
+            // render the toolbar
+            $sInfoToolRendered = $oView->fetch ('string:' . $sInfoToolSmarty);
+
+            // replace toolbar tag placeholder with rendered toolbar
+            $sHtml = str_replace ('<' . $sToolBarVarName . '></' . $sToolBarVarName . '>', $sInfoToolRendered, $sHtml);
         }
-
-        $sHtml = $oDom->saveHTML ();
-
-        // render the toolbar
-        $sInfoToolRendered = $oView->fetch ('string:' . $sInfoToolSmarty);
-
-        // replace toolbar tag placeholder with rendered toolbar
-        $sHtml = str_replace ('<' . $sToolBarVarName . '></' . $sToolBarVarName . '>', $sInfoToolRendered, $sHtml);
-    }
 
         // new output, now including toolbar
         echo $sHtml;
