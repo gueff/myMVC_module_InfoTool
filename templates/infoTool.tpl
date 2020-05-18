@@ -681,10 +681,13 @@ navi label {
 			fMyMvcToolbar_toggle = 0;
 		}
 
+		var iLeft = localStorage.getItem('myMvcToolbar_toggle');
+		(iLeft < 0) ? iLeft = 0 : false;
+
 		document.getElementById("myMvcToolbar").style.display = "block";
 		document.getElementById("myMvcToolbar_head").style.display = "block";
-		document.getElementById("myMvcToolbar").style.left = "-" + localStorage.getItem('myMvcToolbar_toggle') + "px";
-		document.getElementById("myMvcToolbar_head").style.left = "-" +localStorage.getItem('myMvcToolbar_toggle') + "px";
+		document.getElementById("myMvcToolbar").style.left = "-" + iLeft + "px";
+		document.getElementById("myMvcToolbar_head").style.left = "-"  + iLeft + "px";
 	});
 	{/literal}
 </script>
