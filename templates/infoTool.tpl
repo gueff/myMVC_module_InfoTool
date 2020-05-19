@@ -344,13 +344,13 @@ navi label {
 				<div class="subtab22">
 					<h6>Overview</h6>
 					<ul>
-						<li><a href="#myMvcToolbar_getQueryArray">MVC_Request::getQueryArray</a></li>
-						<li><a href="#myMvcToolbar_getwhitelistParams">MVC_Request::getwhitelistParams</a></li>
+						<li><a href="#myMvcToolbar_getQueryArray">\MVC\Request::getInstance()->getQueryArray()</a></li>
+						<li><a href="#myMvcToolbar_getwhitelistParams">\MVC\Request::getInstance()->getwhitelistParams()</a></li>
 					</ul>
 
-					<h6>MVC_Request::getQueryArray <a name="myMvcToolbar_getQueryArray"></a> <span class="myMvcToolbar-float-right"><small><a href="#myMvcToolbar_top2">&uarr; top</a></small></span></h6>
+					<h6>\MVC\Request::getInstance()->getQueryArray() <a name="myMvcToolbar_getQueryArray"></a> <span class="myMvcToolbar-float-right"><small><a href="#myMvcToolbar_top2">&uarr; top</a></small></span></h6>
 					<p>{$aToolbar.oMvcRequestGetQueryArray}</p>
-					<h6>MVC_Request::getwhitelistParams <a name="myMvcToolbar_getwhitelistParams"></a> <span class="myMvcToolbar-float-right"><small><a href="#myMvcToolbar_top2">&uarr; top</a></small></span></h6>
+					<h6>\MVC\Request::getInstance()->getwhitelistParams() <a name="myMvcToolbar_getwhitelistParams"></a> <span class="myMvcToolbar-float-right"><small><a href="#myMvcToolbar_top2">&uarr; top</a></small></span></h6>
 					<p>{$aToolbar.oMvcRequestGetWhitelistParams}</p>
 				</div>
 				<div class="subtab23">
