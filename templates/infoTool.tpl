@@ -683,6 +683,12 @@ navi label {
 
 		var iLeft = localStorage.getItem('myMvcToolbar_toggle');
 		(iLeft < 0) ? iLeft = 0 : false;
+		{/literal}
+		{if empty($aToolbar.aError)}
+		(iLeft > 658) ? iLeft = 0 : false;
+		{/if}
+		{literal}
+		localStorage.setItem("myMvcToolbar_toggle", iLeft);
 
 		document.getElementById("myMvcToolbar").style.display = "block";
 		document.getElementById("myMvcToolbar_head").style.display = "block";
