@@ -14,6 +14,7 @@
 namespace InfoTool\Model;
 
 use MVC\Event;
+use MVC\Helper;
 
 /**
  * Index
@@ -57,52 +58,49 @@ class Index
      */
     public static function injectToolbar (\Smarty $oView)
     {
-        $sToolBarVarName = 'sToolBar_' . uniqid ();
+        $aToolbar = \MVC\Registry::get ('aToolbar');
+        $sHtml = '';
+
+        $sToolBarVarName = 'sToolBar_' . uniqid();
         $sInfoToolSmarty = '{$' . $sToolBarVarName . '}';
 
         // add toolbar template var to layout
-        $aToolbar = \MVC\Registry::get ('aToolbar');
-        $oView->assign ('aToolbar', $aToolbar);
-        $oView->assign ($sToolBarVarName, $oView->loadTemplateAsString (realpath (__DIR__ . '/../') . '/templates/infoTool.tpl'));
+        $oView->assign('aToolbar', $aToolbar);
+        $oView->assign($sToolBarVarName, $oView->loadTemplateAsString(realpath(__DIR__ . '/../') . '/templates/infoTool.tpl'));
 
         // disable regular view output
-        \MVC\View::$_bEchoOut = FALSE;
+        \MVC\View::$_bEchoOut = false;
 
         // inject toolbar var to regular string output via DOM
-        INJECT: {
-
+        if (true === isset($aToolbar['sRendered']) && false === empty($aToolbar['sRendered']))
+        {
             $oDom = new \DOMDocument(null, null);
 
             // prevent error messages occuring by using DOM
             // @see http://stackoverflow.com/a/6090728/2487859
-            libxml_use_internal_errors (true);
+            libxml_use_internal_errors(true);
+
             // DOMDocument::loadHTML will treat your string as being in ISO-8859-1 unless you tell it otherwise.
             // @see http://stackoverflow.com/a/8218649/2487859
-            $oDom->loadHTML (
-                mb_convert_encoding(
-                    $aToolbar['sRendered'],
-                    'HTML-ENTITIES',
-                    'UTF-8'
-                )
-            );
-            libxml_clear_errors ();
+            $oDom->loadHTML(mb_convert_encoding($aToolbar['sRendered'], 'HTML-ENTITIES', 'UTF-8'));
+            libxml_clear_errors();
 
             // add toolbar tag as a placeholder before body closing tag
-            $oNode = $oDom->createElement ($sToolBarVarName);
-            $oBody = $oDom->getElementsByTagName ('body');
+            $oNode = $oDom->createElement($sToolBarVarName);
+            $oBody = $oDom->getElementsByTagName('body');
 
             foreach ($oBody as $oItem)
             {
-                $oItem->appendChild ($oNode);
+                $oItem->appendChild($oNode);
             }
 
-            $sHtml = $oDom->saveHTML ();
+            $sHtml = $oDom->saveHTML();
 
             // render the toolbar
-            $sInfoToolRendered = $oView->fetch ('string:' . $sInfoToolSmarty);
+            $sInfoToolRendered = $oView->fetch('string:' . $sInfoToolSmarty);
 
             // replace toolbar tag placeholder with rendered toolbar
-            $sHtml = str_replace ('<' . $sToolBarVarName . '></' . $sToolBarVarName . '>', $sInfoToolRendered, $sHtml);
+            $sHtml = str_replace('<' . $sToolBarVarName . '></' . $sToolBarVarName . '>', $sInfoToolRendered, $sHtml);
         }
 
         // new output, now including toolbar
@@ -182,20 +180,28 @@ class Index
         $aToolbar['aPolicy']['aApplied'] = $this->buildMarkupListTree((isset($aPolicy[$sController][$sMethod])) ? $aPolicy[$sController][$sMethod] : false);
         $aToolbar['aPolicy']['sAppliedAt'] = ((isset($aPolicy[$sController][$sMethod])) ? $sController . '::' . $sMethod : false);
         $aToolbar['sTemplate'] = $oView->sTemplate;
-        $aToolbar['sTemplateContent'] = file_get_contents ($aToolbar['sTemplate'], true);
 
-        ob_start ();
-        $sTemplate = file_get_contents ($oView->sTemplate, true);
-        $oView->renderString ($sTemplate);
-        $sRendered = ob_get_contents ();
-        ob_end_clean ();
+//        Helper::DEBUG(is_file($oView->sTemplate));
+//        Helper::STOP();
+
+        $aToolbar['sTemplateContent'] = (null !== get($aToolbar['sTemplate']) && true === is_file($oView->sTemplate)) ? file_get_contents ($aToolbar['sTemplate'], true) : '';
+        $sRendered = '';
+
+        if (true === is_file($oView->sTemplate))
+        {
+            ob_start ();
+            $sTemplate = file_get_contents ($oView->sTemplate, true);
+            $oView->renderString ($sTemplate);
+            $sRendered = ob_get_contents ();
+            ob_end_clean ();
+        }
+
         $aToolbar['sRendered'] = $sRendered;
-
         $aToolbar['aFilesIncluded'] = get_required_files ();
         $aToolbar['aMemory'] = array (
             'iRealMemoryUsage' => (memory_get_usage (true) / 1024)
-        , 'dMemoryUsage' => (memory_get_usage () / 1024)
-        , 'dMemoryPeakUsage' => (memory_get_peak_usage () / 1024)
+            , 'dMemoryUsage' => (memory_get_usage () / 1024)
+            , 'dMemoryPeakUsage' => (memory_get_peak_usage () / 1024)
         );
         $aToolbar['aRegistry'] = \MVC\Registry::getStorageArray ();
         $aToolbar['sRegistry'] = $this->buildMarkupListTree($aToolbar['aRegistry']);
