@@ -10,12 +10,15 @@ blue: hsl(210,50%,50%)
 {literal}
 #myMvcToolbar {/* div */
 	position: fixed !important;
-	bottom: 0px;
-	left: 0px;
+	bottom: 0px !important;
+	/*left: px !important;*/
 	font-family: monospace, monospace;
 	display: none;
 	z-index: 9999999999 !important;
 }
+.myMvcToolbar_shrink {left: -657px;}
+.myMvcToolbar_expand {left: 0px;}
+
 #myMvcToolbar * {
 	box-sizing: unset !important;
 }
@@ -25,8 +28,8 @@ blue: hsl(210,50%,50%)
 }
 #myMvcToolbar_head {/* div */
 	position: fixed;
-	bottom: 43px;
-	left: 0px;
+	bottom: 43px !important;
+	/*left: 0px !important;*/
 	min-width: 600px;
 	font-size: 12px;
 	z-index: -1;
@@ -228,8 +231,8 @@ navi label {
 {/literal}
 </style>
 
-<div id="myMvcToolbar">
-	<div id="myMvcToolbar_head">
+<div id="myMvcToolbar" class="myMvcToolbar_expand">
+	<div id="myMvcToolbar_head" class="myMvcToolbar_expand">
 		<span>PHP {$aToolbar.sPHP}, Operating System {$aToolbar.sOS}, Construction Time: {$aToolbar.sConstructionTime} s</span>
 		<br>
 		<span>myMVC: {$aToolbar.sMyMvcVersion}, MVC_ENV: {$aToolbar.sEnv}, MVC_UNIQUE_ID: {$aToolbar.sUniqueId}, session_id(): {$aToolbar.session_id}</span>
@@ -653,12 +656,40 @@ navi label {
 		oEvent.stopPropagation();
 	});
 
-	document.getElementById("myMvcToolbar_toggle").addEventListener("click", function(oEvent){
+	function setExpand()
+	{
+		document.getElementById("myMvcToolbar").classList.remove('myMvcToolbar_shrink');
+		document.getElementById("myMvcToolbar_head").classList.remove('myMvcToolbar_shrink');
+		document.getElementById("myMvcToolbar").classList.add('myMvcToolbar_expand');
+		document.getElementById("myMvcToolbar_head").classList.remove('myMvcToolbar_expand');
+	}
 
+	function setShrink()
+	{
+		document.getElementById("myMvcToolbar").classList.remove('myMvcToolbar_expand');
+		document.getElementById("myMvcToolbar_head").classList.remove('myMvcToolbar_expand');
+		document.getElementById("myMvcToolbar").classList.add('myMvcToolbar_shrink');
+		document.getElementById("myMvcToolbar_head").classList.remove('myMvcToolbar_shrink');
+	}
+
+	/**
+	 *
+	 */
+	function toggleInOut()
+	{
+		// Using an if statement to check the class
+		if (document.getElementById("myMvcToolbar").classList.contains('myMvcToolbar_shrink')) {
+			setExpand();
+		} else {
+			setShrink();
+		}
+	}
+
+	document.getElementById("myMvcToolbar_toggle").addEventListener("click", function(){
+
+		toggleInOut();
 		var oCoords = getOffset(this);
-		document.getElementById("myMvcToolbar_head").style.left = "-" + oCoords.left + "px";
-		document.getElementById("myMvcToolbar").style.left = "-" + oCoords.left + "px";
-		localStorage.setItem("myMvcToolbar_toggle", oCoords.left);
+		localStorage.setItem("myMvcToolbar_toggle", parseInt(oCoords.left));
 	});
 
 	window.addEventListener('click', function (evt) {
@@ -674,26 +705,24 @@ navi label {
 
 		console.log('%cmyMVC %cInfoTool', 'color: blue;', 'color: red;');
 		console.dir({/literal}{$aToolbar|json_encode}{literal});
-
 		var fMyMvcToolbar_toggle = localStorage.getItem('myMvcToolbar_toggle');
+
 		if (null === fMyMvcToolbar_toggle) {
-			localStorage.setItem("myMvcToolbar_toggle", 0);
+			localStorage.setItem("myMvcToolbar_toggle", 657);
 			fMyMvcToolbar_toggle = 0;
 		}
 
 		var iLeft = localStorage.getItem('myMvcToolbar_toggle');
+		localStorage.setItem("myMvcToolbar_toggle", parseInt(iLeft));
 		(iLeft < 0) ? iLeft = 0 : false;
 		{/literal}
 		{if empty($aToolbar.aError)}
 		(iLeft > 658) ? iLeft = 0 : false;
 		{/if}
 		{literal}
-		localStorage.setItem("myMvcToolbar_toggle", iLeft);
 
-		document.getElementById("myMvcToolbar").style.display = "block";
-		document.getElementById("myMvcToolbar_head").style.display = "block";
-		document.getElementById("myMvcToolbar").style.left = "-" + iLeft + "px";
-		document.getElementById("myMvcToolbar_head").style.left = "-"  + iLeft + "px";
+		if (parseInt(iLeft) > 0){setExpand();}else{setShrink();}
+		document.getElementById('myMvcToolbar').style.display = 'block';
 	});
 	{/literal}
 </script>

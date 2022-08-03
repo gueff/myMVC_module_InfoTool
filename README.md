@@ -1,8 +1,9 @@
 # myMVC_module_InfoTool
 
-This is a Debug-Toolbar module for [myMVC 1.2.0](https://github.com/gueff/myMVC/releases/tag/1.2.0)
+This is a Debug-Toolbar module for myMVC Version 2.0.1: https://github.com/gueff/myMVC/releases/tag/2.0.1
 
-_If you need this for myMVC < 1.2.0, take this Version of myMVC_module_InfoTool: https://github.com/gueff/myMVC_module_InfoTool/releases/tag/1.0.0_
+- _If you need this for myMVC < 2.0.0, take Version 1.1.2 of myMVC_module_InfoTool: https://github.com/gueff/myMVC_module_InfoTool/releases/tag/1.1.2_
+- _If you need this for myMVC < 1.2.0, take Version 1.0.0 of myMVC_module_InfoTool: https://github.com/gueff/myMVC_module_InfoTool/releases/tag/1.0.0_
 
 ## 1. Download this Repository
 
