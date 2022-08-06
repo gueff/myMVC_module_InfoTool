@@ -1,0 +1,17 @@
+{
+    "name": "gueff/mymvc_module_infotool",
+    "type": "module",
+    "description": "InfoTool / debug-bar extension for myMVC Framework",
+    "keywords": ["infotool","mymvc"],
+    "license": "GPL-3.0-or-later",
+    "homepage": "https://mymvc.ueffing.net/",
+    "require": {
+        "php": ">=7.4"
+    },
+    "authors": [
+        {
+            "name": "Guido K.B.W. Ueffing"
+        }
+    ],
+    "minimum-stability": "dev"
+}
