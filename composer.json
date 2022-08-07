@@ -18,8 +18,7 @@
         "php": ">=7.4"
     },
     "autoload": {
-        "psr-0": {
-            "Infotool": ""
-        }
+        "psr-0": {"Infotool": "Model/"},
+        "files": ["Model/index.php","templates/infoTool.tpl"],
     }
 }
