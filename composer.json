@@ -13,5 +13,13 @@
             "name": "Guido K.B.W. Ueffing"
         }
     ],
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+	"require": {
+        "php": ">=7.4"
+    },
+    "autoload": {
+        "psr-0": {
+            "Infotool": ""
+        }
+    }
 }
